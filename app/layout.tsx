@@ -7,23 +7,25 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'PyCase Forge - Test Case Generator',
-  description: 'Generate robust Python test scripts powered by Gemini 1.5 Pro',
-  generator: 'Next.js',
+  title: 'VCodes',
+  description: 'Created with mee',
+  generator: 'me',
   icons: {
-    icon: 'https://api.dicebear.com/7.x/shapes/svg?seed=pycase',
-    apple: 'https://api.dicebear.com/7.x/shapes/svg?seed=pycase',
-  },
-  openGraph: {
-    title: 'PyCase Forge - Test Case Generator',
-    description: 'Generate robust Python test scripts powered by Gemini 1.5 Pro',
-    images: ['https://api.dicebear.com/7.x/shapes/svg?seed=pycase&size=1200'],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'PyCase Forge - Test Case Generator',
-    description: 'Generate robust Python test scripts powered by Gemini 1.5 Pro',
-    images: ['https://api.dicebear.com/7.x/shapes/svg?seed=pycase&size=1200'],
+    icon: [
+      {
+        url: '/icon-light-32x32.png',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/icon-dark-32x32.png',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        url: '/icon.svg',
+        type: 'image/svg+xml',
+      },
+    ],
+    apple: '/apple-icon.png',
   },
 }
 

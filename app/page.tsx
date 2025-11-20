@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import { Loader2, Download, Code2, FileArchive, Terminal, Copy, Check, ChevronDown, ChevronUp } from "lucide-react"
+import { BackgroundRippleEffect } from "@/components/ui/background-ripple-effect"
 
 export default function Page() {
   const [loading, setLoading] = useState(false)
@@ -116,21 +117,16 @@ Return ONLY the raw Python code. Do not wrap it in markdown code blocks (like \`
 
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-white/20 relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800/20 via-black to-black" />
-        <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob" />
-        <div className="absolute top-0 -right-4 w-72 h-72 bg-blue-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000" />
-      </div>
+      {/* Ripple Effect Background */}
+      <BackgroundRippleEffect />
 
-      <main className="relative max-w-5xl mx-auto p-6 md:p-12 space-y-12">
+      <main className="relative max-w-5xl mx-auto p-6 md:p-12 space-y-12 z-10">
         <header className="space-y-4 text-center md:text-left">
           <h1 className="text-4xl md:text-6xl font-light tracking-tighter bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent">
             Test Case Generator
           </h1>
           <p className="text-zinc-400 max-w-xl text-lg font-light">
-            Generate robust Python test scripts powered by Gemini 1.5 Pro.
+            Generate robust Python test scripts powered by Gemini Pro.
           </p>
         </header>
 
@@ -372,33 +368,6 @@ Return ONLY the raw Python code. Do not wrap it in markdown code blocks (like \`
       </main>
 
       <style jsx global>{`
-        @keyframes blob {
-          0% {
-            transform: translate(0px, 0px) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-          100% {
-            transform: translate(0px, 0px) scale(1);
-          }
-        }
-        
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-
         .custom-scrollbar::-webkit-scrollbar {
           width: 8px;
           height: 8px;
