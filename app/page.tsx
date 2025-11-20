@@ -9,6 +9,7 @@ export default function Page() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState("")
   const [copied, setCopied] = useState(false)
+  const [copiedPrompt, setCopiedPrompt] = useState(false)
   const [showPrompt, setShowPrompt] = useState(false)
   const [generatedPrompt, setGeneratedPrompt] = useState("")
   const [formData, setFormData] = useState({
@@ -79,6 +80,12 @@ Return ONLY the raw Python code. Do not wrap it in markdown code blocks (like \`
     setTimeout(() => setCopied(false), 2000)
   }
 
+  const copyPromptToClipboard = async () => {
+    await navigator.clipboard.writeText(generatedPrompt)
+    setCopiedPrompt(true)
+    setTimeout(() => setCopiedPrompt(false), 2000)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -108,8 +115,14 @@ Return ONLY the raw Python code. Do not wrap it in markdown code blocks (like \`
   }
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-white/20">
-      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800/20 via-black to-black pointer-events-none" />
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-white/20 relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800/20 via-black to-black" />
+        <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob" />
+        <div className="absolute top-0 -right-4 w-72 h-72 bg-blue-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000" />
+      </div>
 
       <main className="relative max-w-5xl mx-auto p-6 md:p-12 space-y-12">
         <header className="space-y-4 text-center md:text-left">
@@ -316,11 +329,34 @@ Return ONLY the raw Python code. Do not wrap it in markdown code blocks (like \`
                   <Code2 className="w-4 h-4" />
                   <span className="text-xs font-mono uppercase tracking-widest">Prompt Preview</span>
                 </div>
-                {showPrompt ? (
-                  <ChevronUp className="w-4 h-4 text-zinc-400" />
-                ) : (
-                  <ChevronDown className="w-4 h-4 text-zinc-400" />
-                )}
+                <div className="flex items-center gap-3">
+                  {generatedPrompt && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        copyPromptToClipboard()
+                      }}
+                      className="text-xs flex items-center gap-2 hover:text-white transition-colors"
+                    >
+                      {copiedPrompt ? (
+                        <>
+                          <Check className="w-4 h-4" />
+                          Copied!
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-4 h-4" />
+                          Copy
+                        </>
+                      )}
+                    </button>
+                  )}
+                  {showPrompt ? (
+                    <ChevronUp className="w-4 h-4 text-zinc-400" />
+                  ) : (
+                    <ChevronDown className="w-4 h-4 text-zinc-400" />
+                  )}
+                </div>
               </button>
               
               {showPrompt && (
@@ -336,6 +372,33 @@ Return ONLY the raw Python code. Do not wrap it in markdown code blocks (like \`
       </main>
 
       <style jsx global>{`
+        @keyframes blob {
+          0% {
+            transform: translate(0px, 0px) scale(1);
+          }
+          33% {
+            transform: translate(30px, -50px) scale(1.1);
+          }
+          66% {
+            transform: translate(-20px, 20px) scale(0.9);
+          }
+          100% {
+            transform: translate(0px, 0px) scale(1);
+          }
+        }
+        
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+
         .custom-scrollbar::-webkit-scrollbar {
           width: 8px;
           height: 8px;
